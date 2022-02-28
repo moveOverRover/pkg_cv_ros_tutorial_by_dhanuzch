@@ -10,7 +10,7 @@ from cv_bridge import CvBridge, CvBridgeError
 class camera_1:
 
   def __init__(self):
-    self.image_sub = rospy.Subscriber("/camera_1/image_raw", Image, self.callback)
+    self.image_sub = rospy.Subscriber("/my_gen3/camera/color/image_raw", Image, self.callback)
 
   def callback(self,data):
     bridge = CvBridge()
@@ -22,7 +22,7 @@ class camera_1:
     
     image = cv_image
 
-    resized_image = cv2.resize(image, (360, 640)) 
+    resized_image = cv2.resize(image, (360, 360)) 
 
     #cv2.imshow("Camera output normal", image)
     cv2.imshow("Camera output resized", resized_image)

@@ -10,7 +10,7 @@ from pyzbar.pyzbar import decode
 class camera_1:
 
   def __init__(self):
-    self.image_sub = rospy.Subscriber("/camera_1/image_raw", Image, self.callback)
+    self.image_sub = rospy.Subscriber("/my_gen3/camera/color/image_raw", Image, self.callback)
 
   def callback(self,data):
     bridge = CvBridge()
@@ -24,7 +24,7 @@ class camera_1:
     
     image = cv_image
 
-    resized_image = cv2.resize(image, (360, 640)) 
+    resized_image = cv2.resize(image, (360, 360)) 
 
     gray = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
     thresh = 40
@@ -36,19 +36,19 @@ class camera_1:
     qr_result = decode(img_bw)
 
     #print (qr_result)
-    
-    qr_data = qr_result[0].data
-    print qr_data
+    if len(qr_result) > 0:
+      qr_data = qr_result[0].data
+      print (qr_data)
 
-    (x, y, w, h) = qr_result[0].rect
+      ( x, y, w, h) = qr_result[0].rect
 
-    cv2.rectangle(resized_image, (x, y), (x + w, y + h), (0, 0, 255), 4)
+      cv2.rectangle(resized_image, (x, y), (x + w, y + h), (0, 0, 255), 4)
 
-    text = "{}".format(qr_data)
-    cv2.putText(resized_image, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-    cv2.imshow("Camera output", resized_image)
+      text = "{}".format(qr_data)
+      cv2.putText(resized_image, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+      cv2.imshow("Camera output", resized_image)
 
-    cv2.waitKey(5)
+      cv2.waitKey(5)
 
 def main():
 	camera_1()
