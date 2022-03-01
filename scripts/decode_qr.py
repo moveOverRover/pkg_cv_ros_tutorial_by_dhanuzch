@@ -24,12 +24,13 @@ class camera_1:
     
     image = cv_image
 
-    resized_image = cv2.resize(image, (360, 360)) 
+    resized_image = cv2.resize(image, (600, 300)) 
 
     gray = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
-    thresh = 40
+    thresh = 156
     img_bw = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY)[1]
 
+    #print(gray)
     #cv2.imshow("B&W Image", gray)
     #cv2.imshow("B&W Image /w threshold", img_bw)
 
@@ -38,7 +39,7 @@ class camera_1:
     #print (qr_result)
     if len(qr_result) > 0:
       qr_data = qr_result[0].data
-      print (qr_data)
+      print (qr_result[0])
 
       ( x, y, w, h) = qr_result[0].rect
 
